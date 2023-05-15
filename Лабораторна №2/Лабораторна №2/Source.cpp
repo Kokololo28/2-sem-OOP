@@ -1,59 +1,65 @@
 #include <iostream>
-#include <cmath>
-#define NL std::cout << '\n'
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
 using namespace std;
 
-void main()
+void compressArray(vector<int>& arr, int a, int b)
 {
-	const int n = 10;
-	int A[n] = { -2, 4, -1, 5, 7, -3, 2, 0, -6, 8 };
-	cout << "Array: " << endl;
-	for (int i = 0; i < n; i++)
-	{
-		cout << "[" << A[i] << "]" << " ";
-	}
-	NL; NL;
+    auto newEnd = remove_if(arr.begin(), arr.end(), [a, b](int num)
+        {
+            int absNum = abs(num);
+            return absNum >= a && absNum <= b;
+        });
+    fill(newEnd, arr.end(), 0);
+}
 
-	//Max element
-	int max = A[0];
-	for (int i = 1; i < n; i++)
-	{
-		if (A[i] > max) { max = A[i]; }
-	}
-	cout << "Max element: " << max << endl;
-	NL;
-	//Sum elements
-	int sum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		if (A[i] < 8)
-		{
-			sum += A[i];
-		}
-	}
-	cout << "Sum elements: " << sum << endl;
-	NL;
+int main()
+{
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
 
-	//Squeeze array
-	int B[n];
-	int j = 0;
-	for (int i = 0; i < n; i++)
-	{
-		if (abs(A[i]) < 3 || abs(A[i]) > 7)
-		{
-			B[j] = A[i];
-			j++;
-		}
-	}
-	for (int i = j; i < n; i++)
-	{
-		B[i] = 0;
-	}
-	cout << "Squeezed array: "; NL;
-	for (int i = 0; i < n; i++)
-	{
-		cout << "[" << B[i] << "]" << " ";
-	}
-	NL;
-	system("pause"); 
+    vector<int> arr(n);
+    for (int i = 0; i < n; ++i)
+    {
+        // Set your own number for arr[i]
+        arr[i] = i + 1;
+    }
+
+    cout << "Array elements:\n";
+    for (const auto& num : arr)
+    {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    // Find the maximum element in the array
+    int maxElement = *max_element(arr.begin(), arr.end());
+    cout << "Maximum element: " << maxElement << endl;
+
+    // Compute the sum of elements before the last positive element
+    auto it = find_if(arr.rbegin(), arr.rend(), [](int num)
+        {
+            return num > 0;
+        }).base();
+        int sum = accumulate(arr.begin(), it, 0);
+        cout << "Sum of elements before the last positive element: " << sum << endl;
+
+        // Compress the array by removing elements in the interval [a, b]
+        int a, b;
+        cout << "Enter the interval [a, b]: ";
+        cin >> a >> b;
+        compressArray(arr, a, b);
+
+        // Print the result of the compressed array
+        cout << "Compressed array: ";
+        for (const auto& num : arr)
+        {
+            cout << num << " ";
+        }
+        cout << endl;
+
+        return 0;
 }
