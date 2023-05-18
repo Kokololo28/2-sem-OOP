@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <ctime>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ void compressArray(vector<int>& arr, int a, int b)
 int main()
 {
     int n;
+    srand(time(NULL));
     cout << "Enter the size of the array: ";
     cin >> n;
 
@@ -25,7 +27,7 @@ int main()
     for (int i = 0; i < n; ++i)
     {
         // Set your own number for arr[i]
-        arr[i] = i + 1;
+        arr[i] = -10 + rand() % 25;
     }
 
     cout << "Array elements:\n";
