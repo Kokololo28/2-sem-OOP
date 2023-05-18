@@ -27,7 +27,7 @@ int main()
     for (int i = 0; i < n; ++i)
     {
         // Set your own number for arr[i]
-        arr[i] = -10 + rand() % 25;
+        arr[i] = -10 + rand() % 35;
     }
 
     cout << "Array elements:\n";
